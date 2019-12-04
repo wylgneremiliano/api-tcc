@@ -10,7 +10,8 @@
         "@controller/*": ["src/controller/*"],
         "@model/*": ["src/model/*"],
         "@helper/*": ["src/helper/*"],
-        "@service/*": ["src/service/*"]
+        "@service/*": ["src/service/*"],
+        "@middlewares/*": ["src/middlewares/*"]
       }
     },
     "exclude": ["node_modules", "dist"]
