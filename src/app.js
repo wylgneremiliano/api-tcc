@@ -6,4 +6,5 @@ app.use(express.json())
 app.use(sendError);
 require('@controller/authController')(app)
 require('@controller/rotasFormigas')(app)
+require('@controller/cityController')(app)
 module.exports = app
