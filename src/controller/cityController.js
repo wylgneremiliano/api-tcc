@@ -26,14 +26,26 @@ router.get('/:cityId', async (req, res) => {
 // criação 
 router.post('/', async (req, res) => {
     try {
-        const city = await City.create({ ...req.body, user: req.userId })
+        const { name, x, y, description } = req.body
+        const city = await City.create({ name, x, y, description, user: req.userId })
         return res.send({ city })
     } catch (error) {
         return res.status(400).send({ error: 'Error creating new city:' })
     }
 })
 router.put('/:cityId', async (req, res) => {
-    res.send({ user: req.userId })
+    try {
+        const { name, x, y, description } = req.body
+        const city = await City.findByIdAndUpdate(req.params.cityId, {
+            name,
+            x,
+            y,
+            description,
+        }, { new: true })
+        return res.send({ city })
+    } catch (error) {
+        return res.status(400).send({ error: 'Error creating new city:' })
+    }
 })
 router.delete('/:cityId', async (req, res) => {
     try {
