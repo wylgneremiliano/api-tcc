@@ -5,11 +5,12 @@ const City = require('@model/city')
 
 const router = express.Router()
 
-router.use(authMiddleware)
+//router.use(authMiddleware)
 // listagem
 router.get('/', async (req, res) => {
     try {
-        const cities = await City.find().populate('user')
+        const user_id = req.headers.user_id
+        const cities = await City.find({ user: user_id }).populate('user')
         return res.send({ cities })
     } catch (error) {
         return res.status(400).send({ error: 'Error loading cities' })
@@ -27,10 +28,11 @@ router.get('/:cityId', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { name, x, y, description } = req.body
-        const city = await City.create({ name, x, y, description, user: req.userId })
+        const { user_id } = req.headers;
+        const city = await City.create({ name, x, y, description, user: user_id })
         return res.send({ city })
     } catch (error) {
-        return res.status(400).send({ error: 'Error creating new city:' })
+        return res.status(400).send({ error: `Error creating new city: ${error}` })
     }
 })
 router.put('/:cityId', async (req, res) => {
